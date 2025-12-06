@@ -12,7 +12,7 @@ Button { // leftMenuButton
     property color normalColor: "#1c1d20"
     property int iconWidth: 16
     property int iconHeight: 16
-    property bool isActive: true
+    property bool isActive: false
     property color activeMenuColor: "#0059b8"
     
     QtObject {

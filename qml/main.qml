@@ -7,8 +7,9 @@ ApplicationWindow { // mainWindow
     width: 1000
     height: 600
     visible: true
-    title: qsTr("MyGUI")
     color: "#00000000"
+
+    flags: Qt.FramelessWindowHint | Qt. Window
 
     Rectangle { // background
         id: background 
@@ -39,10 +40,9 @@ ApplicationWindow { // mainWindow
                     height: 60
                     anchors.left: parent.left
                     anchors.top: parent.top
-                    //text: "\u2630"
 
                     onClicked: {
-                        leftMenu.width = leftMenu.width == 250 ? 70 : 250
+                        leftMenuAnimation.running = true
                     }
                 }
 
@@ -55,6 +55,14 @@ ApplicationWindow { // mainWindow
                     anchors.rightMargin: 105
                     anchors.leftMargin: 70
                     height: 35
+
+                    DragHandler {
+                        onActiveChanged: {
+                            if (active) {
+                                mainWindow.startSystemMove()
+                            }
+                        }
+                    }
 
                     Image { // iconApp
                         id: iconApp
@@ -179,24 +187,53 @@ ApplicationWindow { // mainWindow
                             id: homeButton
                             iconSource: "../../images/svg/home_icon.svg"
                             text: qsTr("Accueil")
+                            isActive: true
+                            onClicked: {
+                                homeButton.isActive = true
+                                openButton.isActive = false
+                                saveButton.isActive = false
+                                infoButton.isActive = false
+                                settingsButton.isActive = false
+                            }
                         }
 
                         LeftMenuButton { // openButton
                             id: openButton
                             iconSource: "../../images/svg/open_icon.svg"
                             text: qsTr("Ouvrir")
+                            onClicked: {
+                                homeButton.isActive = false
+                                openButton.isActive = true
+                                saveButton.isActive = false
+                                infoButton.isActive = false
+                                settingsButton.isActive = false
+                            }
                         }
 
                         LeftMenuButton { // saveButton
                             id: saveButton
                             iconSource: "../../images/svg/save_icon.svg"
                             text: qsTr("Enregistrer")
+                            onClicked: {
+                                homeButton.isActive = false
+                                openButton.isActive = false
+                                saveButton.isActive = true
+                                infoButton.isActive = false
+                                settingsButton.isActive = false
+                            }
                         }
 
                         LeftMenuButton { // infoButton
                             id: infoButton
                             iconSource: "../../images/svg/info_icon.svg"
                             text: qsTr("Info")
+                            onClicked: {
+                                homeButton.isActive = false
+                                openButton.isActive = false
+                                saveButton.isActive = false
+                                infoButton.isActive = true
+                                settingsButton.isActive = false
+                            }
                         }
                     }
                     LeftMenuButton { // settingsButton
@@ -206,7 +243,23 @@ ApplicationWindow { // mainWindow
                         anchors.left: parent.left
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 25
+                        onClicked: {
+                            settingsButton.isActive = true
+                            homeButton.isActive = false
+                            openButton.isActive = false
+                            saveButton.isActive = false
+                            infoButton.isActive = false
+                        }
                     }
+                }
+
+                PropertyAnimation {
+                    id: leftMenuAnimation
+                    target: leftMenu
+                    property: "width"
+                    to: leftMenu.width == 250 ? 70 : 250
+                    duration: 400
+                    easing.type: Easing.InOutQuint
                 }
 
                 Rectangle { // contentPages
