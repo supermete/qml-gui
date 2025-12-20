@@ -11,11 +11,44 @@ ApplicationWindow { // mainWindow
 
     flags: Qt.FramelessWindowHint | Qt. Window
 
+    property int bgMargins: 10
+    property url maximizeAndRestoreIcon: "../../images/svg/maximize_icon.svg"
+
+    QtObject {
+        id: resizeHandles
+
+        function maximizeAndRestore() {
+            if (mainWindow.visibility === Window.Maximized) {
+                mainWindow.showNormal()
+                maximizeAndRestoreIcon = "../../images/svg/maximize_icon.svg"
+                bgMargins = 10
+            } else {
+                mainWindow.showMaximized()
+                maximizeAndRestoreIcon = "../../images/svg/restore_icon.svg"
+                bgMargins = 0
+            }
+        }
+
+        function dragControl() {
+            if (active) {
+                var x = mainWindow.x
+                var y = mainWindow.y
+                if(mainWindow.visibility == Window.Maximized) {                    
+                    mainWindow.showNormal()
+                    bgMargins = 10
+                    mainWindow.x = x
+                    mainWindow.y = y
+                } 
+                mainWindow.startSystemMove()
+            }
+        }
+    }
+
     Rectangle { // background
         id: background 
         anchors.fill: parent
         color: "#2c313c"
-        anchors.margins: 10
+        anchors.margins: bgMargins
         border.color: "#383e4c"
         border.width: 1
 
@@ -56,11 +89,17 @@ ApplicationWindow { // mainWindow
                     anchors.leftMargin: 70
                     height: 35
 
+                    MouseArea {
+                        id: titleBarMouseArea
+                        anchors.fill: parent
+                        onDoubleClicked: {
+                            resizeHandles.maximizeAndRestore()
+                        }
+                    }                    
+
                     DragHandler {
                         onActiveChanged: {
-                            if (active) {
-                                mainWindow.startSystemMove()
-                            }
+                            resizeHandles.dragControl()
                         }
                     }
 
@@ -105,14 +144,8 @@ ApplicationWindow { // mainWindow
                         id: maximizeButton
                         width: 35
                         height: 35
-                        iconSource: "../../images/svg/maximize_icon.svg"
-                        onClicked: {
-                            if (mainWindow.visibility === Window.Maximized) {
-                                mainWindow.showNormal()
-                            } else {
-                                mainWindow.showMaximized()
-                            }
-                        }
+                        iconSource: maximizeAndRestoreIcon
+                        onClicked: resizeHandles.maximizeAndRestore()
                     }
 
                     TopButton { // closeButton
