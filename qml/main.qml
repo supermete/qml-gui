@@ -30,16 +30,11 @@ ApplicationWindow { // mainWindow
         }
 
         function dragControl() {
-            if (active) {
-                var x = mainWindow.x
-                var y = mainWindow.y
-                if(mainWindow.visibility == Window.Maximized) {                    
-                    mainWindow.showNormal()
-                    bgMargins = 10
-                    mainWindow.x = x
-                    mainWindow.y = y
-                } 
-                mainWindow.startSystemMove()
+            mainWindow.startSystemMove()
+            if(mainWindow.visibility == Window.Maximized) {                    
+                mainWindow.showNormal()
+                maximizeAndRestoreIcon = "../../images/svg/maximize_icon.svg"
+                bgMargins = 10                    
             }
         }
     }
@@ -98,7 +93,7 @@ ApplicationWindow { // mainWindow
                     }                    
 
                     DragHandler {
-                        onActiveChanged: {
+                        onActiveChanged: if(active) {
                             resizeHandles.dragControl()
                         }
                     }
