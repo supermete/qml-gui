@@ -2,16 +2,20 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "controls"
 
+
 ApplicationWindow { // mainWindow
     id: mainWindow
     width: 1000
     height: 600
     visible: true
     color: "#00000000"
+    minimumWidth: 800
+    minimumHeight: 500
 
     flags: Qt.FramelessWindowHint | Qt. Window
 
     property int bgMargins: 10
+    property int resizeMargins: 6
     property url maximizeAndRestoreIcon: "../../images/svg/maximize_icon.svg"
 
     QtObject {
@@ -37,6 +41,86 @@ ApplicationWindow { // mainWindow
                 bgMargins = 10                    
             }
         }
+
+        /* ---------- Resize Helpers ---------- */
+
+        function resizeLeft(dx) {
+            if( mainWindow.width - dx + 1 < mainWindow.minimumWidth )
+                return
+            mainWindow.x += dx
+            mainWindow.width -= dx - 1
+        }
+
+        function resizeRight(dx) {
+            if( mainWindow.width + dx < mainWindow.minimumWidth )
+                return
+            mainWindow.width += dx
+        }
+
+        function resizeTop(dy) {
+            if( mainWindow.height - dy + 1 < mainWindow.minimumHeight )
+                return
+            mainWindow.y += dy
+            mainWindow.height -= dy - 1
+        }
+
+        function resizeBottom(dy) {
+            if( mainWindow.height + dy < mainWindow.minimumHeight )
+                return
+            mainWindow.height += dy
+        }
+    }
+
+    /* ---------- Left Edge ---------- */
+    MouseArea {
+        anchors.left: background.left
+        anchors.top: background.top
+        anchors.bottom: background.bottom
+        width: resizeMargins
+        cursorShape: Qt.SizeHorCursor
+        property real lastX
+
+        onPressed: lastX = mouse.x
+        onPositionChanged: resizeHandles.resizeLeft(mouse.x - lastX)
+    }
+
+    /* ---------- Right Edge ---------- */
+    MouseArea {
+        anchors.right: background.right
+        anchors.top: background.top
+        anchors.bottom: background.bottom
+        width: resizeMargins
+        cursorShape: Qt.SizeHorCursor
+        property real lastX
+
+        onPressed: lastX = mouse.x
+        onPositionChanged: resizeHandles.resizeRight(mouse.x - lastX)
+    }
+
+    /* ---------- Top Edge ---------- */
+    MouseArea {
+        anchors.top: background.top
+        anchors.left: background.left
+        anchors.right: background.right
+        height: resizeMargins
+        cursorShape: Qt.SizeVerCursor
+        property real lastY
+
+        onPressed: lastY = mouse.y
+        onPositionChanged: resizeHandles.resizeTop(mouse.y - lastY)
+    }
+
+    /* ---------- Bottom Edge ---------- */
+    MouseArea {
+        anchors.bottom: background.bottom
+        anchors.left: background.left
+        anchors.right: background.right
+        height: resizeMargins
+        cursorShape: Qt.SizeVerCursor
+        property real lastY
+
+        onPressed: lastY = mouse.y
+        onPositionChanged: resizeHandles.resizeBottom(mouse.y - lastY)
     }
 
     Rectangle { // background
