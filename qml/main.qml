@@ -15,7 +15,6 @@ ApplicationWindow { // mainWindow
     flags: Qt.FramelessWindowHint | Qt. Window
 
     property int bgMargins: 10
-    property int resizeMargins: 6
     property url maximizeAndRestoreIcon: "../../images/svg/maximize_icon.svg"
 
     QtObject {
@@ -41,87 +40,149 @@ ApplicationWindow { // mainWindow
                 bgMargins = 10                    
             }
         }
-
-        /* ---------- Resize Helpers ---------- */
-
-        function resizeLeft(dx) {
-            if( mainWindow.width - dx + 1 < mainWindow.minimumWidth )
-                return
-            mainWindow.x += dx
-            mainWindow.width -= dx - 1
-        }
-
-        function resizeRight(dx) {
-            if( mainWindow.width + dx < mainWindow.minimumWidth )
-                return
-            mainWindow.width += dx
-        }
-
-        function resizeTop(dy) {
-            if( mainWindow.height - dy + 1 < mainWindow.minimumHeight )
-                return
-            mainWindow.y += dy
-            mainWindow.height -= dy - 1
-        }
-
-        function resizeBottom(dy) {
-            if( mainWindow.height + dy < mainWindow.minimumHeight )
-                return
-            mainWindow.height += dy
-        }
     }
 
     /* ---------- Left Edge ---------- */
     MouseArea {
-        anchors.left: background.left
-        anchors.top: background.top
-        anchors.bottom: background.bottom
-        width: resizeMargins
+        id: leftMouseArea
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.topMargin: bgMargins
+        anchors.bottomMargin: bgMargins
+        width: bgMargins
         cursorShape: Qt.SizeHorCursor
-        property real lastX
 
-        onPressed: lastX = mouse.x
-        onPositionChanged: resizeHandles.resizeLeft(mouse.x - lastX)
+        DragHandler {
+            target: null
+            onActiveChanged: if(active) {
+                mainWindow.startSystemResize(Qt.LeftEdge)
+            }
+        }
     }
 
+    /* ---------- Top Left Corner ---------- */
+    MouseArea {
+        id: topLeftMouseArea
+        anchors.left: parent.left
+        anchors.top: parent.top
+        width: bgMargins
+        height: bgMargins
+        cursorShape: Qt.SizeFDiagCursor
+
+        DragHandler {
+            target: null
+            onActiveChanged: if(active) {
+                mainWindow.startSystemResize(Qt.LeftEdge | Qt.TopEdge)
+            }
+        }
+    }
     /* ---------- Right Edge ---------- */
     MouseArea {
-        anchors.right: background.right
-        anchors.top: background.top
-        anchors.bottom: background.bottom
-        width: resizeMargins
+        id: rightMouseArea
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.topMargin: bgMargins
+        anchors.bottomMargin: bgMargins
+        width: bgMargins
         cursorShape: Qt.SizeHorCursor
-        property real lastX
 
-        onPressed: lastX = mouse.x
-        onPositionChanged: resizeHandles.resizeRight(mouse.x - lastX)
+        DragHandler {
+            target: null
+            onActiveChanged: if(active) {
+                mainWindow.startSystemResize(Qt.RightEdge)
+            }
+        }
     }
 
+    /* ---------- Top Right Corner ---------- */
+    MouseArea {
+        id: topRightMouseArea
+        anchors.right: parent.right
+        anchors.top: parent.top
+        width: bgMargins
+        height: bgMargins
+        cursorShape: Qt.SizeFDiagCursor
+
+        DragHandler {
+            target: null
+            onActiveChanged: if(active) {
+                mainWindow.startSystemResize(Qt.RightEdge | Qt.TopEdge)
+            }
+        }
+    }
     /* ---------- Top Edge ---------- */
     MouseArea {
-        anchors.top: background.top
-        anchors.left: background.left
-        anchors.right: background.right
-        height: resizeMargins
+        id: topMouseArea
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.leftMargin: bgMargins
+        anchors.rightMargin: bgMargins
+        height: bgMargins
         cursorShape: Qt.SizeVerCursor
-        property real lastY
 
-        onPressed: lastY = mouse.y
-        onPositionChanged: resizeHandles.resizeTop(mouse.y - lastY)
+        DragHandler {
+            target: null
+            onActiveChanged: if(active) {
+                mainWindow.startSystemResize(Qt.TopEdge)
+            }
+        }
     }
 
+    /* ---------- Bottom Left Corner ---------- */
+    MouseArea {
+        id: bottomLeftMouseArea
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        width: bgMargins
+        height: bgMargins
+        cursorShape: Qt.SizeFDiagCursor
+
+        DragHandler {
+            target: null
+            onActiveChanged: if(active) {
+                mainWindow.startSystemResize(Qt.LeftEdge | Qt.BottomEdge)
+            }
+        }
+    }
     /* ---------- Bottom Edge ---------- */
     MouseArea {
-        anchors.bottom: background.bottom
-        anchors.left: background.left
-        anchors.right: background.right
-        height: resizeMargins
+        id: bottomMouseArea
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: bgMargins
+        anchors.rightMargin: bgMargins
+        height: bgMargins
         cursorShape: Qt.SizeVerCursor
-        property real lastY
 
-        onPressed: lastY = mouse.y
-        onPositionChanged: resizeHandles.resizeBottom(mouse.y - lastY)
+        DragHandler {
+            target: null
+            onActiveChanged: if(active) {
+                mainWindow.startSystemResize(Qt.BottomEdge)
+            }
+        }
     }
+
+    /* ---------- Bottom Right Corner ---------- */
+    MouseArea {
+        id: bottomRightMouseArea
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        width: bgMargins
+        height: bgMargins
+        cursorShape: Qt.SizeFDiagCursor
+
+        DragHandler {
+            target: null
+            onActiveChanged: if(active) {
+                mainWindow.startSystemResize(Qt.RightEdge | Qt.BottomEdge)
+            }
+        }
+    }
+
 
     Rectangle { // background
         id: background 
