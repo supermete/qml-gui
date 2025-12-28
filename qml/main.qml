@@ -9,8 +9,8 @@ ApplicationWindow { // mainWindow
     height: 600
     visible: true
     color: "#00000000"
-    minimumWidth: 800
-    minimumHeight: 500
+    minimumWidth: 500
+    minimumHeight: 400
 
     flags: Qt.FramelessWindowHint | Qt. Window
 
@@ -45,10 +45,10 @@ ApplicationWindow { // mainWindow
         /* ---------- Resize Helpers ---------- */
 
         function resizeLeft(dx) {
-            if( mainWindow.width - dx + 1 < mainWindow.minimumWidth )
+            if( mainWindow.width - dx < mainWindow.minimumWidth )
                 return
             mainWindow.x += dx
-            mainWindow.width -= dx - 1
+            mainWindow.width -= dx 
         }
 
         function resizeRight(dx) {
@@ -58,10 +58,10 @@ ApplicationWindow { // mainWindow
         }
 
         function resizeTop(dy) {
-            if( mainWindow.height - dy + 1 < mainWindow.minimumHeight )
+            if( mainWindow.height - dy < mainWindow.minimumHeight )
                 return
             mainWindow.y += dy
-            mainWindow.height -= dy - 1
+            mainWindow.height -= dy
         }
 
         function resizeBottom(dy) {
@@ -73,15 +73,39 @@ ApplicationWindow { // mainWindow
 
     /* ---------- Left Edge ---------- */
     MouseArea {
-        anchors.left: background.left
-        anchors.top: background.top
-        anchors.bottom: background.bottom
-        width: resizeMargins
+        id: leftMouseArea
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.topMargin: bgMargins        
+        anchors.bottomMargin: bgMargins
+        width: bgMargins
         cursorShape: Qt.SizeHorCursor
-        property real lastX
+        property real x0
 
-        onPressed: lastX = mouse.x
-        onPositionChanged: resizeHandles.resizeLeft(mouse.x - lastX)
+        onPressed: (mouse) => x0 = mouse.x
+        onPositionChanged: (mouse) => resizeHandles.resizeLeft(mouse.x - x0)
+    }
+
+    /* ---------- Top-Left Corner ---------- */
+    MouseArea { 
+        id: topLeftMouseArea
+        anchors.top: parent.top
+        anchors.left: parent.left
+        width: bgMargins
+        height: bgMargins
+        cursorShape: Qt.SizeFDiagCursor
+        property real lastX
+        property real lastY
+
+        onPressed: (mouse) => {
+            x0 = mouse.x
+            y0 = mouse.y
+        }
+        onPositionChanged: (mouse) => {
+            resizeHandles.resizeLeft(mouse.x - x0)
+            resizeHandles.resizeTop(mouse.y - y0)
+        }
     }
 
     /* ---------- Right Edge ---------- */
@@ -93,8 +117,8 @@ ApplicationWindow { // mainWindow
         cursorShape: Qt.SizeHorCursor
         property real lastX
 
-        onPressed: lastX = mouse.x
-        onPositionChanged: resizeHandles.resizeRight(mouse.x - lastX)
+        onPressed: (mouse) => x0 = mouse.x
+        onPositionChanged: (mouse) => resizeHandles.resizeRight(mouse.x - x0)
     }
 
     /* ---------- Top Edge ---------- */
@@ -104,10 +128,10 @@ ApplicationWindow { // mainWindow
         anchors.right: background.right
         height: resizeMargins
         cursorShape: Qt.SizeVerCursor
-        property real lastY
+        property real y0
 
-        onPressed: lastY = mouse.y
-        onPositionChanged: resizeHandles.resizeTop(mouse.y - lastY)
+        onPressed: (mouse) => y0 = mouse.y
+        onPositionChanged: (mouse) => resizeHandles.resizeTop(mouse.y - y0)
     }
 
     /* ---------- Bottom Edge ---------- */
@@ -117,10 +141,10 @@ ApplicationWindow { // mainWindow
         anchors.right: background.right
         height: resizeMargins
         cursorShape: Qt.SizeVerCursor
-        property real lastY
+        property real y0
 
-        onPressed: lastY = mouse.y
-        onPositionChanged: resizeHandles.resizeBottom(mouse.y - lastY)
+        onPressed: (mouse) => y0 = mouse.y
+        onPositionChanged: (mouse) => resizeHandles.resizeBottom(mouse.y - y0)
     }
 
     Rectangle { // background
@@ -154,7 +178,8 @@ ApplicationWindow { // mainWindow
                     anchors.top: parent.top
 
                     onClicked: {
-                        leftMenuAnimation.running = true
+                        //leftMenuAnimation.running = true
+                        leftMenu.width = leftMenu.width == 250 ? 70 : 250
                     }
                 }
 
