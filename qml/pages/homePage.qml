@@ -19,5 +19,14 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }
+        TextField {
+            id: testField
+            width: parent.width * 0.6
+            height: 30
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            placeholderText: qsTr("Ecrire un texte...")
+        }
     }
 }

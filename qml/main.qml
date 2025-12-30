@@ -221,7 +221,11 @@ ApplicationWindow { // mainWindow
                                 saveButton.isActive = false
                                 infoButton.isActive = false
                                 settingsButton.isActive = false
-                                pageLoader.source = "pages/homePage.qml"
+                                homePageLoader.visible = true
+                                openPageLoader.visible = false
+                                savePageLoader.visible = false
+                                infoPageLoader.visible = false
+                                settingsPageLoader.visible = false
                             }
                         }
 
@@ -235,7 +239,11 @@ ApplicationWindow { // mainWindow
                                 saveButton.isActive = false
                                 infoButton.isActive = false
                                 settingsButton.isActive = false
-                                pageLoader.source = "pages/openPage.qml"
+                                homePageLoader.visible = false
+                                openPageLoader.visible = true
+                                savePageLoader.visible = false
+                                infoPageLoader.visible = false
+                                settingsPageLoader.visible = false
                             }
                         }
 
@@ -249,7 +257,11 @@ ApplicationWindow { // mainWindow
                                 saveButton.isActive = true
                                 infoButton.isActive = false
                                 settingsButton.isActive = false
-                                pageLoader.source = "pages/savePage.qml"
+                                homePageLoader.visible = false
+                                openPageLoader.visible = false
+                                savePageLoader.visible = true
+                                infoPageLoader.visible = false
+                                settingsPageLoader.visible = false
                             }
                         }
 
@@ -263,7 +275,11 @@ ApplicationWindow { // mainWindow
                                 saveButton.isActive = false
                                 infoButton.isActive = true
                                 settingsButton.isActive = false
-                                pageLoader.source = "pages/infoPage.qml"
+                                homePageLoader.visible = false
+                                openPageLoader.visible = false
+                                savePageLoader.visible = false
+                                infoPageLoader.visible = true
+                                settingsPageLoader.visible = false
                             }
                         }
                     }
@@ -280,7 +296,11 @@ ApplicationWindow { // mainWindow
                             saveButton.isActive = false
                             infoButton.isActive = false
                             settingsButton.isActive = true
-                            pageLoader.source = "pages/settingsPage.qml"
+                            homePageLoader.visible = false
+                            openPageLoader.visible = false
+                            savePageLoader.visible = false
+                            infoPageLoader.visible = false
+                            settingsPageLoader.visible = true
                         }
                     }
                 }
@@ -305,9 +325,34 @@ ApplicationWindow { // mainWindow
                     anchors.bottomMargin: 25
 
                     Loader {
-                        id: pageLoader
+                        id: homePageLoader
                         anchors.fill: parent
                         source: "pages/homePage.qml"
+                        visible: true
+                    }
+                    Loader {
+                        id: openPageLoader
+                        anchors.fill: parent
+                        source: "pages/openPage.qml"
+                        visible: false
+                    }
+                    Loader {
+                        id: infoPageLoader
+                        anchors.fill: parent
+                        source: "pages/infoPage.qml"
+                        visible: false
+                    }
+                    Loader {
+                        id: savePageLoader
+                        anchors.fill: parent
+                        source: "pages/savePage.qml"
+                        visible: false
+                    }
+                    Loader {
+                        id: settingsPageLoader
+                        anchors.fill: parent
+                        source: "pages/settingsPage.qml"
+                        visible: false
                     }
                 }
 
