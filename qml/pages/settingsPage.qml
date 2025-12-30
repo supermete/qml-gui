@@ -3,7 +3,6 @@ import QtQuick.Controls 2.15
 
 Item {
     id: homePage
-    anchors.fill: parent
 
     Rectangle {
         id: header

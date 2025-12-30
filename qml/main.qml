@@ -9,8 +9,8 @@ ApplicationWindow { // mainWindow
     height: 600
     visible: true
     color: "#00000000"
-    minimumWidth: 800
-    minimumHeight: 500
+    minimumWidth: 600
+    minimumHeight: 400  
 
     flags: Qt.FramelessWindowHint | Qt. Window
 
@@ -221,11 +221,7 @@ ApplicationWindow { // mainWindow
                                 saveButton.isActive = false
                                 infoButton.isActive = false
                                 settingsButton.isActive = false
-                                settingsPage.visible = false
-                                homePage.visible = true
-                                infoPage.visible = false
-                                savePage.visible = false
-                                openPage.visible = false
+                                pageLoader.source = "pages/homePage.qml"
                             }
                         }
 
@@ -239,12 +235,7 @@ ApplicationWindow { // mainWindow
                                 saveButton.isActive = false
                                 infoButton.isActive = false
                                 settingsButton.isActive = false
-                                settingsPage.visible = false
-                                homePage.visible = false
-                                infoPage.visible = false
-                                savePage.visible = false
-                                openPage.visible = true
-
+                                pageLoader.source = "pages/openPage.qml"
                             }
                         }
 
@@ -258,11 +249,7 @@ ApplicationWindow { // mainWindow
                                 saveButton.isActive = true
                                 infoButton.isActive = false
                                 settingsButton.isActive = false
-                                settingsPage.visible = false
-                                homePage.visible = false
-                                infoPage.visible = false
-                                savePage.visible = true
-                                openPage.visible = false
+                                pageLoader.source = "pages/savePage.qml"
                             }
                         }
 
@@ -276,11 +263,7 @@ ApplicationWindow { // mainWindow
                                 saveButton.isActive = false
                                 infoButton.isActive = true
                                 settingsButton.isActive = false
-                                settingsPage.visible = false
-                                homePage.visible = false
-                                infoPage.visible = true
-                                savePage.visible = false
-                                openPage.visible = false
+                                pageLoader.source = "pages/infoPage.qml"
                             }
                         }
                     }
@@ -292,16 +275,12 @@ ApplicationWindow { // mainWindow
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 25
                         onClicked: {
-                            settingsButton.isActive = true
                             homeButton.isActive = false
                             openButton.isActive = false
                             saveButton.isActive = false
                             infoButton.isActive = false
-                            settingsPage.visible = true
-                            homePage.visible = false
-                            infoPage.visible = false
-                            savePage.visible = false
-                            openPage.visible = false
+                            settingsButton.isActive = true
+                            pageLoader.source = "pages/settingsPage.qml"
                         }
                     }
                 }
@@ -324,37 +303,11 @@ ApplicationWindow { // mainWindow
                     anchors.bottom: parent.bottom
                     color: "#2c313c"
                     anchors.bottomMargin: 25
-                    clip: true
 
                     Loader {
-                        id: homePage
+                        id: pageLoader
                         anchors.fill: parent
                         source: "pages/homePage.qml"
-                        visible: true
-                    }
-                    Loader {
-                        id: infoPage
-                        anchors.fill: parent
-                        source: "pages/infoPage.qml"
-                        visible: false
-                    }
-                    Loader {
-                        id: savePage
-                        anchors.fill: parent
-                        source: "pages/savePage.qml"
-                        visible: false
-                    }
-                    Loader {
-                        id: settingsPage
-                        anchors.fill: parent
-                        source: "pages/settingsPage.qml"
-                        visible: false
-                    }
-                    Loader {
-                        id: openPage
-                        anchors.fill: parent
-                        source: "pages/openPage.qml"
-                        visible: false
                     }
                 }
 

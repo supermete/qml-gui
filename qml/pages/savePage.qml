@@ -3,12 +3,11 @@ import QtQuick.Controls 2.15
 
 Item {
     id: homePage
-    anchors.fill: parent
 
     Rectangle {
         id: header
         anchors.fill: parent
-        color: "#00000000"
+        color: "#2c313c"
 
         Label {
             id: headerTitle
