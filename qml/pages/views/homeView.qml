@@ -10,50 +10,46 @@ Item {
         anchors.bottomMargin: 30
         color: "#2c313c"
 
-        Label {
-                id: title
-                text: qsTr("Home View")
-                color: "white"
-                font.pixelSize: 20
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+        ListView {
+            id: taskListView
+            anchors.fill: parent
+            model: ListModel {
+                ListElement { name: "Faire les courses" }
+                ListElement { name: "Finir de lire Modern GUI" }
+                ListElement { name: "Appeler maman" }
             }
-        TextField {
-            id: testField
-            width: parent.width * 0.6
-            height: 30
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 10
-            placeholderText: qsTr("Ecrire un texte...")
-        }
-    }
-    Rectangle {
-        id: footer
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.top: pageContent.bottom
-        color: '#2c313c'
 
-        Label {
-            id: footerText
-            text: qsTr("Details >")
-            color: '#004bd7'
-            font.pixelSize: 14
-            horizontalAlignment: Text.AlignRight
-            verticalAlignment: Text.AlignVCenter
-            anchors.right: parent.right
-            anchors.left: parent.left
-            anchors.rightMargin: 10
+            delegate: Rectangle {
+                width: parent.width
+                height: 50
+                color: index % 2 === 0 ? "#3a3f4a" : "#343a45"
 
-            MouseArea {
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    stackView.push("detailsView.qml")
+                Text {
+                    id: taskName
+                    text: name
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    anchors.right: arrowIcon.left
+                    color: "white"
+                    font.pixelSize: 15
+                }
+                Text {
+                    id: arrowIcon
+                    anchors.right: parent.right
+                    anchors.rightMargin: 20
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: ">"
+                    color: "white"
+                    font.pixelSize: 15
+                }
+                MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+
+                        onClicked: {
+                            stackView.push("detailsView.qml", { taskName: name } )
+                        }
                 }
             }
         }

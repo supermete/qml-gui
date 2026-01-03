@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 
 Item {
     id: detailsView
+    property string taskName: ""
 
     Rectangle {
         id: pageContent
@@ -11,7 +12,7 @@ Item {
         color: "#2c313c"
     Label {
             id: title
-            text: qsTr("Details View")
+            text: qsTr(taskName)
             color: "white"
             font.pixelSize: 20
             anchors.verticalCenter: parent.verticalCenter
