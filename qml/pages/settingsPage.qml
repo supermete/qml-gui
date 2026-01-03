@@ -5,12 +5,12 @@ Item {
     id: homePage
 
     Rectangle {
-        id: header
+        id: pageContent
         anchors.fill: parent
         color: "#2c313c"
 
         Label {
-            id: headerTitle
+            id: title
             text: qsTr("Settings Page")
             color: "white"
             font.pixelSize: 20
