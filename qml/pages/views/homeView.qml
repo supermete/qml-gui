@@ -20,16 +20,22 @@ Item {
             }
 
             delegate: Rectangle {
-                width: parent.width
+                width: taskListView.width
+                anchors.margins: 10
+                anchors.left: parent.left
+                anchors.right: parent.right
                 height: 50
                 color: index % 2 === 0 ? "#3a3f4a" : "#343a45"
+                radius: 10
+                border.color: "#1e222a"
+                border.width: 1
 
                 Text {
                     id: taskName
                     text: name
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 10
+                    anchors.leftMargin: 15
                     anchors.right: arrowIcon.left
                     color: "white"
                     font.pixelSize: 15
