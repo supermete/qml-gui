@@ -13,17 +13,11 @@ Item {
         ListView {
             id: taskListView
             anchors.fill: parent
-            model: ListModel {
-                ListElement { name: "Faire les courses" }
-                ListElement { name: "Finir de lire Modern GUI" }
-                ListElement { name: "Appeler maman" }
-            }
+            anchors.margins: 10
+            model: todoModel
 
             delegate: Rectangle {
                 width: taskListView.width
-                anchors.margins: 10
-                anchors.left: parent.left
-                anchors.right: parent.right
                 height: 50
                 color: index % 2 === 0 ? "#3a3f4a" : "#343a45"
                 radius: 10
@@ -32,7 +26,7 @@ Item {
 
                 Text {
                     id: taskName
-                    text: name
+                    text: display
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 15
@@ -54,7 +48,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
 
                         onClicked: {
-                            stackView.push("detailsView.qml", { taskName: name } )
+                            stackView.push("detailsView.qml", { taskName: display } )
                         }
                 }
             }
