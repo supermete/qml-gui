@@ -51,7 +51,7 @@ Item {
                     anchors.left: parent.left
                     anchors.leftMargin: 15
                     checked: completed
-                    onCheckedChanged: {
+                    onClicked: {
                         completed = checked
                     }
                 }
