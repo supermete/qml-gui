@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     todoModel = TodoModel([
         Todo("Faire les courses", True), 
-        Todo("Finir de lire Modern GUI"),
+        Todo("Finir de lire Modern GUI", True),
         Todo("Appeler maman"),
         Todo("Faire déclaration d'impôts"),
         Todo("Envoyer candidature à la NASA"),

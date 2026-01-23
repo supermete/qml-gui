@@ -18,14 +18,22 @@ Item {
         }
     }
 
-    PageIndicator {
-        id: indicator
-
-        count: view.count
-        currentIndex: view.currentIndex
+    Rectangle {
+        id: indicatorBackground
+        width: parent.width
+        height: 30
         anchors.bottom: view.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
+        color: "#2c313c"
+        
+        PageIndicator {
+            id: pageIndicator
 
+            count: view.count
+            currentIndex: view.currentIndex
+            anchors.centerIn: parent
+        }
+        MouseArea {
+            anchors.fill: parent
+        }
     }
-
 }

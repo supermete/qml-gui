@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from PySide6.QtCore import QAbstractListModel, QModelIndex, Qt, Slot, Signal, QSortFilterProxyModel
 
+
 @dataclass
 class Todo:
     text: str
