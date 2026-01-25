@@ -19,13 +19,13 @@ if __name__ == "__main__":
         Todo("Préparer la finale de Call Of Doodie"),
         ])
     
-    proxy_model_incomplete_tasks = ProxyTodoModel(False)
-    proxy_model_complete_tasks = ProxyTodoModel(True)
-    proxy_model_complete_tasks.setSourceModel(todoModel)
-    proxy_model_incomplete_tasks.setSourceModel(todoModel)
+    proxyModelIncompleteTasks = ProxyTodoModel(False)
+    proxyModelCompleteTasks = ProxyTodoModel(True)
+    proxyModelIncompleteTasks.setSourceModel(todoModel)
+    proxyModelCompleteTasks.setSourceModel(todoModel)
     engine.rootContext().setContextProperty("todoModel", todoModel)
-    engine.rootContext().setContextProperty("proxyModelCompleteTasks", proxy_model_complete_tasks)
-    engine.rootContext().setContextProperty("proxyModelIncompleteTasks", proxy_model_incomplete_tasks)
+    engine.rootContext().setContextProperty("proxyModelCompleteTasks", proxyModelCompleteTasks)
+    engine.rootContext().setContextProperty("proxyModelIncompleteTasks", proxyModelIncompleteTasks)
     engine.load(os.path.join(os.path.dirname(__file__), "qml/main.qml"))
 
     if not engine.rootObjects():

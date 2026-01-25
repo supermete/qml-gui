@@ -11,7 +11,7 @@ Item {
         color: "#2c313c"
 
         ListView {
-            id: completeTasksListView
+            id: tasksListView
             anchors.fill: parent
             anchors.margins: 10
             model: proxyModelCompleteTasks
@@ -20,7 +20,7 @@ Item {
             remove: Transition {
                 NumberAnimation {
                     properties: "x"
-                    to: -completeTasksListView.width
+                    to: -tasksListView.width
                     duration: 250
                     easing.type: Easing.InCubic
                 }
@@ -38,7 +38,7 @@ Item {
             }
 
             delegate: Rectangle {
-                width: completeTasksListView.width
+                width: tasksListView.width
                 height: 50
                 color: index % 2 === 0 ? "#3a3f4a" : "#343a45"
                 radius: 10
